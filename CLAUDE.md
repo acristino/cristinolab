@@ -4,63 +4,67 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Static homepage for the Cristino Lab (Neurogenomics and Systems Biology Laboratory, GRIDD, Griffith University). The entire site lives in a single `index.html` with all CSS inlined in a `<style>` block — no build system, no bundler, no dependencies.
+Static multi-page website for the Cristino Lab (Neurogenomics and Systems Biology Laboratory, Institute for Biomedicine and Glycomics, Griffith University). Styles live in `assets/css/style.css`. No build system, no bundler, no dependencies.
 
-Deployment: pushes to `main` auto-deploy to GoDaddy via GitHub Actions.
+Deployment: pushes to `main` auto-deploy to Cloudflare Pages.
 
 ## Previewing
 
-Open `index.html` directly in a browser. No server needed — it's fully static.
+Open any HTML file directly in a browser. No server needed — it's fully static.
 
 ```bash
-# Linux
-xdg-open index.html
-
 # or serve locally for accurate font loading
 python3 -m http.server 8080
 ```
 
 ## Architecture
 
-All markup, styles, and (future) scripts live in `index.html`. The page is organized into sequential `<section id="...">` blocks:
+The site is organised as separate HTML pages, each importing `assets/css/style.css`:
 
-| Section | ID | Description |
-|---|---|---|
-| Hero | `#hero` | Full-viewport intro with logo, heading, CTAs |
-| Stats bar | — | Key lab metrics (not a `<section>`) |
-| About | `#about` | Two-column: text + institute card |
-| Research | `#research` | 6-card grid of research areas |
-| Team | `#team` | Card grid; placeholder photos until real ones arrive |
-| Publications | `#publications` | Chronological list with year, authors, journal |
-| News | `#news` | Card grid with date, tag, title, excerpt |
-| Contact | `#contact` | Two-column: details + static form (no backend yet) |
+| File | Description |
+|---|---|
+| `index.html` | Home — hero, image gallery, lab overview teaser |
+| `about.html` | PI profile, biography, grants & funding |
+| `research.html` | Research areas grouped as Basic and Medical |
+| `team.html` | Current members with photos, alumni supervision list |
+| `publications.html` | All 49 publications with syntheses and word cloud |
+| `collaborations.html` | IBG/Griffith, Australian, international partners |
+| `resources.html` | Resources placeholder (coming soon) |
+| `tools.html` | Bioinformatics tools placeholder (coming soon) |
+| `contact.html` | Contact details and opportunities |
 
 ## Design system (CSS custom properties)
 
-All colours are defined as variables at `:root`. The palette is light/white with blue accents:
+All colours are defined as variables at `:root` in `assets/css/style.css`. The palette is light/white with blue accents:
 
 - `--accent` / `--accent-dim`: primary blue (`#1460c8`)
 - `--teal` / `--teal-dim`: secondary green (`#0a7a60`)
 - `--text`, `--text-secondary`, `--text-muted`: text hierarchy
 - `--border`, `--border-subtle`: dividers and card outlines
 
-Typography uses three Google Fonts families applied consistently:
-- `--serif` (DM Serif Display): all `h1`/`h2`/`h3` headings
+Typography uses three Google Fonts families:
+- `--serif` (DM Serif Display): headings
 - `--sans` (DM Sans): body copy and team card names
-- `--mono` (DM Mono): labels, section tags, navigation links, stats, metadata
+- `--mono` (DM Mono): labels, section tags, navigation links, metadata
 
 ## Adding content
 
-**New team member** — duplicate a `.team-card` div in `#team`. The `.team-photo` div should be replaced with an `<img>` once a photo is available; the comment in the CSS explains this.
+**New team member (current)** — add a `.team-card` div in the relevant group in `team.html`. Place photo in `assets/img/` and replace the `[ Photo ]` placeholder with `<img src="assets/img/FILENAME" alt="Name">`.
 
-**New publication** — prepend a `.pub-item` div in `#publications`. Follow the existing pattern: `.pub-year` + `.pub-content` with `.authors` and `.journal` link.
+**New publication** — prepend a `.pub-item` div in `publications.html`. Follow the existing pattern: `.pub-year` + `.pub-content` with `.authors`, `.journal` link, and `.pub-synthesis` paragraph.
 
-**New news item** — prepend a `.news-card` div in `#news`. Use one of the existing tag styles (Grant, Publication, Position).
+**New research area** — add a `.research-card` to the appropriate `.research-grid` in `research.html`.
 
-**New research area** — add a `.research-card` to `.research-grid` in `#research`. The grid is `auto-fit minmax(280px, 1fr)` so it reflows automatically.
+**New collaborator** — add a `.collab-card` div to the relevant section in `collaborations.html`.
 
-## Planned but not yet created
+**New grant** — prepend a `.grant-item` div in the grants section of `about.html`.
 
-- `assets/css/` — future external stylesheet
-- `assets/js/` — future scripts (contact form submission, etc.)
-- The contact form `<button>` has no `action` or JS handler yet
+## Nav active state
+
+Each page sets `class="active"` on its own nav link. Update this when copying the nav block to a new page.
+
+## Assets
+
+- `assets/css/style.css` — shared stylesheet (edit here, not inline)
+- `assets/img/` — all photos and images
+- `assets/js/` — scripts (future; contact form submission, etc.)
