@@ -1,6 +1,6 @@
 # cristinolab.com
 
-Official homepage of the Neurogenomics and Systems Biology Laboratory (Cristino Lab), Institute for Biomedicine and Glycomics (IBG), Griffith University.
+Official homepage of the Neurogenomics and Systems Biology Laboratory (Cristino Lab).
 
 ## Site structure
 
